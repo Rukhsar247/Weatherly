@@ -28,46 +28,59 @@ class WeatherViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.cityName.bind { [weak self] cityName in
-            self?.cityNameLabel.text = cityName
-        }
-        
-        viewModel.temperature.bind { [weak self] temperature in
-            self?.temperatureLabel.text = temperature
-        }
-        
-        viewModel.weatherDescription.bind { [weak self] description in
-            self?.weatherDescriptionLabel.text = description
-        }
-        
-        viewModel.weatherIcon.bind { [weak self] iconURL in
-            guard let url = iconURL else { return }
-            self?.loadWeatherIcon(from: url)
-        }
-        
-        viewModel.isLoading.bind { [weak self] isLoading in
-            if isLoading {
-                self?.activityIndicator.startAnimating()
-                self?.activityIndicatorView.isHidden = false
-            } else {
-                self?.activityIndicator.stopAnimating()
-                self?.activityIndicatorView.isHidden = true
+        self.viewModel.cityName.bind { [weak self] cityName in
+            DispatchQueue.main.async {
+                self?.cityNameLabel.text = cityName
             }
         }
         
-        viewModel.error.bind { [weak self] errorMessage in
+        self.viewModel.temperature.bind { [weak self] temperature in
+            DispatchQueue.main.async {
+                self?.temperatureLabel.text = temperature
+            }
+        }
+        
+        self.viewModel.weatherDescription.bind { [weak self] description in
+            DispatchQueue.main.async {
+                self?.weatherDescriptionLabel.text = description
+            }
+        }
+        
+        self.viewModel.weatherIcon.bind { [weak self] iconURL in
+            DispatchQueue.main.async {
+                guard let url = iconURL else { return }
+                self?.loadWeatherIcon(from: url)
+            }
+        }
+        
+        self.viewModel.isLoading.bind { [weak self] isLoading in
+            
+            if isLoading {
+                DispatchQueue.main.async {
+                    self?.activityIndicator.startAnimating()
+                    self?.activityIndicator.isHidden = false
+                    self?.activityIndicatorView.isHidden = false
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self?.activityIndicator.stopAnimating()
+                    self?.activityIndicator.isHidden = true
+                    self?.activityIndicatorView.isHidden = true
+                }
+            }
+            
+        }
+        
+        self.viewModel.error.bind { [weak self] errorMessage in
             if let message = errorMessage {
                 self?.showError(message)
             }
         }
+        
     }
     
     private func loadWeatherIcon(from url: String) {
-        AF.request(url).responseData { response in
-            if case .success(let data) = response.result {
-                self.weatherIconImageView.image = UIImage(data: data)
-            }
-        }
+        weatherIconImageView.load(urlString: url)
     }
     
     private func showError(_ message: String) {
@@ -77,7 +90,8 @@ class WeatherViewController: UIViewController {
     }
     
     @IBAction func refreshButtonTapped(_ sender: UIButton) {
-        viewModel.fetchWeather(for: "San Francisco")
+        
+        viewModel.fetchWeather(for: viewModel.cityName.value ?? "Lahore")
     }
     
     @IBAction func searchCityButtonTapped(_ sender: UIButton) {
@@ -96,3 +110,4 @@ class WeatherViewController: UIViewController {
         present(alert, animated: true)
     }
 }
+

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Alamofire
 
 protocol WeatherServiceProtocol {
     func fetchWeather(for city: String, completion: @escaping (Result<Weather, Error>) -> Void)
@@ -15,19 +14,48 @@ protocol WeatherServiceProtocol {
 class WeatherService: WeatherServiceProtocol {
 
     func fetchWeather(for city: String, completion: @escaping (Result<Weather, Error>) -> Void) {
-        let parameters: [String: String] = [
-            "q": city,
-            "appid": Constants.apiKey,
-            "units": "metric"
-        ]
+        guard let url = makeURL(for: city) else {
+            completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
+            return
+        }
 
-        AF.request(Constants.weatherURL, parameters: parameters).responseDecodable(of: WeatherResponse.self) { response in
-            switch response.result {
-            case .success(let weatherResponse):
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                completion(.failure(NSError(domain: "Invalid Response", code: -1, userInfo: nil)))
+                return
+            }
+
+            guard let data = data else {
+                completion(.failure(NSError(domain: "No Data", code: -1, userInfo: nil)))
+                return
+            }
+
+            do {
+                let weatherResponse = try JSONDecoder().decode(WeatherResponse.self, from: data)
                 completion(.success(weatherResponse.toWeather()))
-            case .failure(let error):
+            } catch {
                 completion(.failure(error))
             }
         }
+
+        task.resume()
+    }
+
+    private func makeURL(for city: String) -> URL? {
+        var components = URLComponents(string: Constants.weatherURL)
+        components?.queryItems = [
+            URLQueryItem(name: "q", value: city),
+            URLQueryItem(name: "appid", value: Constants.apiKey),
+            URLQueryItem(name: "units", value: "metric")
+        ]
+        return components?.url
     }
 }

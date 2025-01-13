@@ -6,7 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		40AB1B24C922168254979A62 /* Pods_Weatherly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6565A94612DD3C248C6DA0B /* Pods_Weatherly.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		1DEF9BCC481F96120806DA2E /* Pods-Weatherly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weatherly.release.xcconfig"; path = "Target Support Files/Pods-Weatherly/Pods-Weatherly.release.xcconfig"; sourceTree = "<group>"; };
+		7056FEFAEA4188542BB7842A /* Pods-Weatherly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weatherly.debug.xcconfig"; path = "Target Support Files/Pods-Weatherly/Pods-Weatherly.debug.xcconfig"; sourceTree = "<group>"; };
+		C6565A94612DD3C248C6DA0B /* Pods_Weatherly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Weatherly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FADF39D52D34178D00860B14 /* Weatherly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weatherly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -36,17 +43,38 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40AB1B24C922168254979A62 /* Pods_Weatherly.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7DA7FCDEFBD570B5CE702FF9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7056FEFAEA4188542BB7842A /* Pods-Weatherly.debug.xcconfig */,
+				1DEF9BCC481F96120806DA2E /* Pods-Weatherly.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		D77115A97756AB853A800A12 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C6565A94612DD3C248C6DA0B /* Pods_Weatherly.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		FADF39CC2D34178D00860B14 = {
 			isa = PBXGroup;
 			children = (
 				FADF39D72D34178D00860B14 /* Weatherly */,
 				FADF39D62D34178D00860B14 /* Products */,
+				7DA7FCDEFBD570B5CE702FF9 /* Pods */,
+				D77115A97756AB853A800A12 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -65,9 +93,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FADF39E82D34178F00860B14 /* Build configuration list for PBXNativeTarget "Weatherly" */;
 			buildPhases = (
+				7E3BC2FB027C064E4A154390 /* [CP] Check Pods Manifest.lock */,
 				FADF39D12D34178D00860B14 /* Sources */,
 				FADF39D22D34178D00860B14 /* Frameworks */,
 				FADF39D32D34178D00860B14 /* Resources */,
+				2C984254C4B637FDF5B2577E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -77,8 +107,6 @@
 				FADF39D72D34178D00860B14 /* Weatherly */,
 			);
 			name = Weatherly;
-			packageProductDependencies = (
-			);
 			productName = Weatherly;
 			productReference = FADF39D52D34178D00860B14 /* Weatherly.app */;
 			productType = "com.apple.product-type.application";
@@ -127,6 +155,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		2C984254C4B637FDF5B2577E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Weatherly/Pods-Weatherly-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Weatherly/Pods-Weatherly-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Weatherly/Pods-Weatherly-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7E3BC2FB027C064E4A154390 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Weatherly-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		FADF39D12D34178D00860B14 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -140,6 +210,7 @@
 /* Begin XCBuildConfiguration section */
 		FADF39E92D34178F00860B14 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7056FEFAEA4188542BB7842A /* Pods-Weatherly.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -167,6 +238,7 @@
 		};
 		FADF39EA2D34178F00860B14 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1DEF9BCC481F96120806DA2E /* Pods-Weatherly.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
